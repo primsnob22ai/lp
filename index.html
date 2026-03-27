@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>цифровой кочевник - портфолио</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        :root {
+            --bg-color: #2a2c2e;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #4a4c50 0%, #151618 100%);
+            --card-bg: linear-gradient(145deg, #181818 0%, #050505 100%);
+            --text-main: #ffffff;
+            --text-secondary: #888888;
+            --accent: #ffffff;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-color);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* эффект зернистости */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        /* усиленные анимации появления */
+        .reveal {
+            opacity: 0;
+            transform: translateY(120px) scale(0.95);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* header */
+        header {
+            padding: 30px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(30, 32, 34, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text-secondary);
+        }
+
+        /* карточки секций */
+        section {
+            background: var(--card-bg);
+            padding: 80px;
+            border-radius: 4px;
+            box-shadow: 0 -20px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero {
+            margin-top: 100px; 
+            min-height: 70vh;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            padding: 0; 
+            background: #0b0d0c; 
+            align-items: stretch;
+            text-align: left;
+        }
+
+        .hero-content {
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            font-size: 10px;
+            border-radius: 100px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: fit-content;
+        }
+
+        h1 {
+            font-size: clamp(40px, 8vw, 90px);
+            line-height: 1;
+            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 60px;
+            display: block;
+        }
+
+        /* видео-блок */
+        .video-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* преимущества */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+        }
+
+        .benefit-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .benefit-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        /* процесс работы */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .process-step {
+            position: relative;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .step-number {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            display: block;
+            letter-spacing: 2px;
+        }
+
+        .process-step h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .process-step p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        /* слайдер */
+        .slider-wrapper {
+            position: relative;
+        }
+
+        .slider {
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            padding-bottom: 20px;
+        }
+
+        .slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-card {
+            min-width: 45%;
+            background: rgba(0,0,0,0.3);
+            padding: 0;
+            border: 1px solid rgba(255,255,255,0.05);
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            padding: 60px 40px;
+        }
+
+        .project-card h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 100%;
+            font-size: 14px;
+        }
+
+        .slider-controls {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-outline {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 14px 32px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+
+        .btn-outline:hover {
+            background: var(--text-main);
+            color: #000;
+        }
+
+        /* стили для подсказок (tooltips) */
+        .tooltip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            font-size: 9px;
+            cursor: help;
+            margin-left: 8px;
+            vertical-align: middle;
+            font-style: normal;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .tooltip-text {
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111;
+            color: var(--text-main);
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            width: max-content;
+            max-width: 280px;
+            white-space: normal;
+            text-align: left;
+            line-height: 1.6;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, bottom 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .tooltip:hover .tooltip-text {
+            opacity: 1;
+            bottom: 120%;
+        }
+
+        .tooltip-text b {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* отзывы */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .review-item {
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 30px;
+        }
+
+        .review-text {
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .review-author {
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* форма и калькулятор */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-form-wrapper {
+            background: #111;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .contact-form-wrapper h3 {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 10px 0;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--text-main);
+        }
+
+        .submit-btn {
+            background: #1a1a1a;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 32px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--text-main);
+            color: #000;
+        }
+
+        /* footer */
+        footer {
+            padding: 0 0 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-info {
+            color: var(--text-secondary);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--text-secondary);
+        }
+
+        /* бургер-меню */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            background: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .menu-toggle span:nth-child(1) { top: 0; }
+        .menu-toggle span:nth-child(2) { top: 9px; }
+        .menu-toggle span:nth-child(3) { top: 18px; }
+
+        .menu-open .menu-toggle span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+        .menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
+        .menu-open .menu-toggle span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .menu-open .mobile-menu {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 20px 0;
+            transition: color 0.3s;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .menu-open .mobile-menu a {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .menu-open .mobile-menu a:nth-child(1) { transition-delay: 0.1s; }
+        .menu-open .mobile-menu a:nth-child(2) { transition-delay: 0.2s; }
+        .menu-open .mobile-menu a:nth-child(3) { transition-delay: 0.3s; }
+        .menu-open .mobile-menu a:nth-child(4) { transition-delay: 0.4s; }
+        .menu-open .mobile-menu a:nth-child(5) { transition-delay: 0.5s; }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* стили для нового интерактивного квиза */
+        .quiz-wrapper {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .quiz-step {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .quiz-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-header {
+            margin-bottom: 40px;
+        }
+
+        .quiz-header h3 {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .quiz-group {
+            margin-bottom: 40px;
+        }
+
+        .quiz-group-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .quiz-option {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .quiz-option:hover {
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+            font-weight: 700;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: var(--text-main);
+            cursor: pointer;
+            margin-top: -6px;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+        }
+
+        .counter-widget {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .counter-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-main);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s;
+        }
+        
+        .counter-btn:hover {
+            border-color: var(--text-main);
+        }
+
+        .quiz-footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-price {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .quiz-price-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .result-box h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .result-box p {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 900px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .header-content { justify-content: space-between; }
+            header nav { display: none; }
+            .menu-toggle { display: block; }
+            
+            .container { padding: 20px 15px; gap: 40px; }
+            section { padding: 40px 20px; border-radius: 8px; }
+            
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .hero-content {
+                padding: 40px 20px;
+            }
+            .hero-image {
+                height: 400px;
+            }
+            
+            h1 { font-size: 48px; }
+            
+            .slider { gap: 20px; }
+            .project-card { 
+                min-width: 85%;
+                padding: 40px 20px; 
+            }
+            
+            footer { flex-direction: column; gap: 20px; text-align: center; }
+            .social-links a { margin: 0 10px; }
+
+            .modal-content { padding: 40px 20px; }
+            .cp-header h2 { font-size: 24px; }
+            
+            .quiz-wrapper { padding: 0; }
+            .quiz-footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .quiz-footer .submit-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">digital.PURITY</div>
+            <nav>
+                <a href="#work">работы</a>
+                <a href="#about">кто я</a>
+                <a href="#benefits">преимущества</a>
+                <a href="#quiz">расчет и заявка</a>
+            </nav>
+            <button class="menu-toggle" aria-label="открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="#work">работы</a>
+        <a href="#about">кто я</a>
+        <a href="#benefits">преимущества</a>
+        <a href="#quiz">расчет и заявка</a>
+    </div>
+
+    <div class="container">
+        <!-- hero -->
+        <section class="hero reveal">
+            <div class="hero-content">
+                <span class="badge">available for projects</span>
+                <h1>digital.PURITY</h1>
+                <p>цифровой кочевник: проектирую лаконичные решения для бизнеса. эстетика через простоту и функцию.</p>
+            </div>
+            <img src="https://i.yapx.ru/dPM28.png" alt="Портрет" class="hero-image">
+        </section>
+
+        <!-- проекты -->
+        <section id="work" class="reveal">
+            <span class="section-title">избранные кейсы</span>
+            <div class="slider-wrapper">
+                <div class="slider" id="projectSlider">
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMZ.png') center/cover no-repeat;">
+                        <h3>fintech dashboard</h3>
+                        <p>интерфейс для управления криптоактивами с упором на сложную аналитику и простоту восприятия.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMa.png') center/cover no-repeat;">
+                        <h3>urban mobility app</h3>
+                        <p>мобильное приложение для аренды электросамокатов. более 50к активных пользователей.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMc.png') center/cover no-repeat;">
+                        <h3>e-commerce platform</h3>
+                        <p>редизайн крупного интернет-магазина одежды. увеличение конверсии в покупку на 15% за квартал.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMd.png') center/cover no-repeat;">
+                        <h3>ai content tool</h3>
+                        <p>интерфейс для saas-платформы генерации контента. проектирование сложных флоу работы с нейросетями.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMe.png') center/cover no-repeat;">
+                        <h3>smart home hub</h3>
+                        <p>концепт приложения для управления умным домом с 3d-визуализацией комнат и сценариев.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                    <div class="project-card" style="background: linear-gradient(to bottom, rgba(11, 13, 12, 0.4), rgba(11, 13, 12, 0.95)), url('https://i.yapx.ru/dPSMf.png') center/cover no-repeat;">
+                        <h3>health tech crm</h3>
+                        <p>система для частных клиник: объединяет запись пациентов, карту здоровья и финансовую аналитику.</p>
+                        <button class="btn-outline">смотреть кейс</button>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button class="btn-outline" onclick="scrollSlider(-1)">назад</button>
+                    <button class="btn-outline" onclick="scrollSlider(1)">вперед</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- кто я -->
+        <section id="about" class="reveal">
+            <span class="section-title">кто я</span>
+            <div class="video-wrapper">
+                <iframe src="https://kinescope.io/embed/kduQ1eqaeNdfreKCah4WmE" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- преимущества -->
+        <section id="benefits" class="reveal">
+            <span class="section-title">почему я</span>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>автономность</h3>
+                    <p>не требую контроля. работаю по четким kpi и соблюдаю дедлайны вне зависимости от часового пояса.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>прозрачность</h3>
+                    <p>каждую неделю отправляю отчет о прогрессе. вы всегда знаете, за что платите.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>эстетика</h3>
+                    <p>верю в силу минимализма. убираю лишнее, чтобы сфокусировать пользователя на главном.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- процесс работы -->
+        <section id="process" class="reveal">
+            <span class="section-title">как мы работаем</span>
+            <div class="process-grid">
+                <div class="process-step">
+                    <span class="step-number">01</span>
+                    <h3>знакомство</h3>
+                    <p>вы оставляете заявку. мы созваниваемся на 15 минут: обсуждаем бизнес-задачу и определяем, подходим ли мы друг другу.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">02</span>
+                    <h3>оценка</h3>
+                    <p>я изучаю вводные данные и готовлю коммерческое предложение: точная смета, таймлайн и пошаговый план работ.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">03</span>
+                    <h3>разработка</h3>
+                    <p>прозрачный процесс: работаем короткими спринтами. вы регулярно видите промежуточные результаты и можете давать фидбек.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">04</span>
+                    <h3>запуск</h3>
+                    <p>тестируем, переносим проект на рабочий сервер. после релиза я остаюсь на связи для поддержки и развития продукта.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- отзывы -->
+        <section class="reveal">
+            <span class="section-title">клиенты говорят</span>
+            <div class="reviews-grid">
+                <div class="review-item">
+                    <p class="review-text">«внимание к деталям и понимание бизнес-задач делают работу максимально эффективной.»</p>
+                    <p class="review-author">виктор, ceo techflow</p>
+                </div>
+                <div class="review-item">
+                    <p class="review-text">«лучший специалист, с которым мы работали удаленно. всегда на связи и с крутыми идеями.»</p>
+                    <p class="review-author">анна, продюсер creative studio</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- новый блок: квалификация и оценка -->
+        <section id="quiz" class="reveal">
+            <span class="section-title">интерактивная квалификация</span>
+            
+            <div class="quiz-wrapper">
+                <!-- шаг 1: конфигуратор -->
+                <div id="q-step-1" class="quiz-step active">
+                    <div class="quiz-header">
+                        <h3>конфигуратор проекта</h3>
+                        <p>определите параметры для расчета предварительной стоимости</p>
+                    </div>
+
+                    <div class="quiz-group">
+                        <span class="quiz-group-title">тип проекта: 
+                            <span class="tooltip">?
+                                <span class="tooltip-text">
+                                    <b>mvp с нуля:</b> создание базовой версии продукта для проверки гипотез.<br><br>
+                                    <b>масштабирование / фичи:</b> доработка текущего проекта.<br><br>
+                                    <b>аудит и оптимизация:</b> поиск узких мест и улучшение текущего ux/ui.
+                                </span>
+                            </span>
+                        </span>
+                        <div class="quiz-options" id="q-type">
+                            <div class="quiz-option selected" data-value="2000" onclick="selectQuizOption('q-type', this)">mvp с нуля</div>
+                            <div class="quiz-option" data-value="1500" onclick="selectQuizOption('q-type', this)">масштабирование / фичи</div>
+                            <div class="quiz-option" data-value="1000" onclick="selectQuizOption('q-type', this)">аудит и оптимизация</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-group">
+                        <span class="quiz-group-title">сложность интерфейса: 
+                            <span class="tooltip">?
+                                <span class="tooltip-text">
+                                    <b>стандарт:</b> аккуратный и функциональный ui.<br><br>
+                                    <b>бизнес:</b> кастомные элементы и плавная анимация.<br><br>
+                                    <b>премиум:</b> уникальный дизайн и сложные микро-взаимодействия.
+                                </span>
+                            </span>
+                        </span>
+                        <div style="margin-top: 15px;">
+                            <input type="range" id="q-complexity" min="1" max="3" step="1" value="1" oninput="updateQuizTotal()">
+                            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">
+                                <span>стандарт</span>
+                                <span>бизнес</span>
+                                <span>премиум</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-group">
+                        <span class="quiz-group-title">внешние интеграции: 
+                            <span class="tooltip">?
+                                <span class="tooltip-text">
+                                    <b>сторонние сервисы:</b> api, платежные шлюзы, crm-системы, рассылки.<br><br>
+                                    <b>влияние на цену:</b> каждая интеграция увеличивает базовую стоимость на $300.
+                                </span>
+                            </span>
+                        </span>
+                        <div class="counter-widget">
+                            <button class="counter-btn" onclick="updateQuizCounter(-1)">-</button>
+                            <span id="q-integrations" style="font-size: 18px; font-weight: 700;">0</span>
+                            <button class="counter-btn" onclick="updateQuizCounter(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-group">
+                        <span class="quiz-group-title">срочность: 
+                            <span class="tooltip">?
+                                <span class="tooltip-text">
+                                    <b>стандартные сроки:</b> работа в комфортном темпе с запасом на правки (4-6 недель).<br><br>
+                                    <b>нужно было вчера:</b> приоритетная разработка с овертаймами (2-3 недели).
+                                </span>
+                            </span>
+                        </span>
+                        <div class="quiz-options" id="q-urgency">
+                            <div class="quiz-option selected" data-value="1.0" onclick="selectQuizOption('q-urgency', this)">стандартные сроки</div>
+                            <div class="quiz-option" data-value="1.5" onclick="selectQuizOption('q-urgency', this)">нужно было вчера</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-footer">
+                        <div>
+                            <span class="quiz-price-label">оценочная стоимость:</span>
+                            <div id="q-total" class="quiz-price">$2000</div>
+                        </div>
+                        <button id="btn-go-details" class="submit-btn" style="margin-top: 0;" onclick="goToQuizStep(2)">перейти к деталям</button>
+                    </div>
+                </div>
+
+                <!-- шаг 2: квиз-фильтр -->
+                <div id="q-step-2" class="quiz-step">
+                    <div class="quiz-header">
+                        <h3>детали проекта</h3>
+                        <p>ответьте на 4 коротких вопроса, чтобы я понял специфику задачи</p>
+                    </div>
+
+                    <div id="quiz-questions-container">
+                        <!-- вопросы рендерятся через js -->
+                    </div>
+
+                    <div class="quiz-footer">
+                        <button class="btn-outline" onclick="goToQuizStep(1)">назад</button>
+                        <button class="submit-btn" style="margin-top: 0;" onclick="processQuizResult()">получить вердикт</button>
+                    </div>
+                </div>
+
+                <!-- шаг 3: результат и форма захвата -->
+                <div id="q-step-3" class="quiz-step">
+                    <div class="result-box" id="quiz-result-box">
+                        <h3 id="res-title">анализирую...</h3>
+                        <p id="res-text">пожалуйста, подождите секунду.</p>
+                        
+                        <div class="contact-form-wrapper" style="text-align: left; max-width: 400px; margin: 0 auto; box-shadow: none;">
+                            <form id="quiz-final-form" onsubmit="submitQuizFinal(event)">
+                                <div class="input-group">
+                                    <input type="text" id="quizClientContact" placeholder="email или telegram (обязательно)" required>
+                                </div>
+                                <button type="submit" id="res-btn" class="submit-btn" style="width: 100%;">отправить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-info">
+                &copy; 2026 nomad.inc - сделано в движении.
+            </div>
+            <div class="social-links">
+                <a href="mailto:hello@nomad.inc">hello@nomad.inc</a>
+                <a href="https://t.me/digital_nomad">@digital_nomad</a>
+                <a href="#">behance</a>
+                <a href="#">linkedin</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // слайдер
+        const slider = document.getElementById('projectSlider');
+        function scrollSlider(direction) {
+            const card = slider.querySelector('.project-card');
+            const gap = parseInt(window.getComputedStyle(slider).gap) || 0;
+            const scrollAmount = card.offsetWidth + gap;
+            
+            slider.scrollBy({
+                left: scrollAmount * direction,
+                behavior: 'smooth'
+            });
+        }
+
+        // улучшенные анимации появления
+        const observerOptions = {
+            threshold: 0,
+            rootMargin: "0px 0px -150px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach((section, index) => {
+            if (index === 0) {
+                setTimeout(() => section.classList.add('active'), 100);
+            } else {
+                observer.observe(section);
+            }
+        });
+
+        // логика мобильного меню
+        const menuToggle = document.querySelector('.menu-toggle');
+        const body = document.body;
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            body.classList.toggle('menu-open');
+        });
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                body.classList.remove('menu-open');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                body.classList.remove('menu-open');
+                
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    setTimeout(() => {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 400);
+                }
+            });
+        });
+
+        /* =========================================
+           логика нового интерактивного квиза 
+           ========================================= */
+        
+        const quizState = {
+            basePrice: 2000,
+            complexity: 1.0, // 1=1.0, 2=1.3, 3=1.7
+            integrations: 0,
+            urgency: 1.0,
+            score: 0,
+            answers: []
+        };
+
+        const quizQuestions = [
+            {
+                title: "у вас есть готовое описание проекта?",
+                options: [
+                    { text: "да, все подробно", score: 0 },
+                    { text: "есть общая идея", score: 1 },
+                    { text: "нужна помощь в проектировании", score: 2 }
+                ]
+            },
+            {
+                title: "вы готовы к видеосвязи в часовом поясе тайланда (utc+7)?",
+                options: [
+                    { text: "да, без проблем", score: 0 },
+                    { text: "удобно только вечером", score: 1 },
+                    { text: "предпочитаю только переписку", score: 2 }
+                ]
+            },
+            {
+                title: "кто принимает финальное решение по проекту?",
+                options: [
+                    { text: "я сам", score: 0 },
+                    { text: "у нас команда/партнеры", score: 1 },
+                    { text: "собираю предложения для руководства", score: 2 }
+                ]
+            },
+            {
+                title: "соответствует ли оценочная стоимость вашим ожиданиям?",
+                options: [
+                    { text: "да, вполне", score: 0 },
+                    { text: "немного выше ожидаемого", score: 1 },
+                    { text: "ищу вариант дешевле", score: 5 } // критический фильтр
+                ]
+            }
+        ];
+
+        // конфигуратор
+        function selectQuizOption(groupId, el) {
+            const group = document.getElementById(groupId);
+            group.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+
+            if (groupId === 'q-type') quizState.basePrice = parseFloat(el.getAttribute('data-value'));
+            if (groupId === 'q-urgency') quizState.urgency = parseFloat(el.getAttribute('data-value'));
+            updateQuizTotal();
+        }
+
+        function updateQuizCounter(val) {
+            quizState.integrations += val;
+            if (quizState.integrations < 0) quizState.integrations = 0;
+            document.getElementById('q-integrations').innerText = quizState.integrations;
+            updateQuizTotal();
+        }
+
+        function updateQuizTotal() {
+            const complexityVal = parseInt(document.getElementById('q-complexity').value);
+            quizState.complexity = complexityVal === 1 ? 1.0 : (complexityVal === 2 ? 1.3 : 1.7);
+            
+            const total = (quizState.basePrice * quizState.complexity * quizState.urgency) + (quizState.integrations * 300);
+            document.getElementById('q-total').innerText = `$${Math.round(total)}`;
+        }
+
+        // рендер вопросов
+        function renderQuestions() {
+            const container = document.getElementById('quiz-questions-container');
+            container.innerHTML = quizQuestions.map((q, qIndex) => `
+                <div class="quiz-group">
+                    <span class="quiz-group-title">${q.title}</span>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, oIndex) => `
+                            <div class="quiz-option" id="q-${qIndex}-opt-${oIndex}" 
+                                 onclick="selectAnswer(${qIndex}, ${oIndex}, ${opt.score}, '${opt.text}')">
+                                ${opt.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectAnswer(qIndex, oIndex, score, text) {
+            const options = document.querySelectorAll(`[id^="q-${qIndex}-opt-"]`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            document.getElementById(`q-${qIndex}-opt-${oIndex}`).classList.add('selected');
+            
+            quizState.answers[qIndex] = { score, text };
+        }
+
+        // навигация
+        function goToQuizStep(step) {
+            if (step === 2) {
+                // показываем второй шаг под первым
+                document.getElementById('q-step-2').classList.add('active');
+                document.getElementById('btn-go-details').style.display = 'none'; // прячем кнопку перехода
+                
+                if (quizState.answers.length === 0) {
+                    renderQuestions();
+                }
+                
+                // плавный скролл ко второму шагу
+                setTimeout(() => {
+                    document.getElementById('q-step-2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else if (step === 3) {
+                // финальный результат заменяет все шаги
+                document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
+                document.getElementById('q-step-3').classList.add('active');
+                document.getElementById('q-step-3').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (step === 1) {
+                // возврат назад со второго шага
+                document.getElementById('q-step-2').classList.remove('active');
+                document.getElementById('btn-go-details').style.display = 'block';
+                document.getElementById('q-step-1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // обработка результатов
+        function processQuizResult() {
+            // проверка, все ли вопросы отвечены
+            if (quizState.answers.filter(Boolean).length < quizQuestions.length) {
+                alert('пожалуйста, ответьте на все вопросы.');
+                return;
+            }
+
+            quizState.score = quizState.answers.reduce((acc, curr) => acc + curr.score, 0);
+            
+            const titleEl = document.getElementById('res-title');
+            const textEl = document.getElementById('res-text');
+            const btnEl = document.getElementById('res-btn');
+
+            if (quizState.score >= 0 && quizState.score <= 3) {
+                titleEl.innerText = 'идеальный матч';
+                textEl.innerText = 'мы отлично подходим друг другу. я готов выделить слот под ваш проект.';
+                btnEl.innerText = 'забронировать звонок';
+            } else if (quizState.score >= 4 && quizState.score <= 6) {
+                titleEl.innerText = 'нужно обсудить';
+                textEl.innerText = 'проект интересный, но есть нюансы по процессам. давайте начнем с консультации.';
+                btnEl.innerText = 'оставить заявку';
+            } else {
+                titleEl.innerText = 'не в этот раз';
+                textEl.innerText = 'похоже, мои методы работы сейчас не совсем подходят под ваши задачи.';
+                btnEl.innerText = 'скачать гайд по тз';
+            }
+
+            goToQuizStep(3);
+        }
+
+        function submitQuizFinal(e) {
+            e.preventDefault();
+            const contact = document.getElementById('quizClientContact').value;
+            
+            // имитация отправки в telegram
+            console.log(`
+--- новый лид ---
+контакт: ${contact}
+оценочная цена: ${document.getElementById('q-total').innerText}
+score: ${quizState.score}
+ответы: ${JSON.stringify(quizState.answers)}
+            `);
+
+            alert('ваши данные получены. спасибо!');
+            e.target.reset();
+            quizState.answers = [];
+            goToQuizStep(1);
+        }
+    </script>
+</body>
+</html>
